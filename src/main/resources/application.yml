@@ -1,0 +1,12 @@
+# spring.application.name=FiveChan
+spring:
+  application:
+    name: FiveChan
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
