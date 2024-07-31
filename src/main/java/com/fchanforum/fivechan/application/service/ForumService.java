@@ -80,39 +80,74 @@ public class ForumService implements CreateTopicUseCase, EditTopicUseCase, Delet
         saveUser(user);
     }
 
-    // Helper Methods
+    // Métodos Auxiliares
 
+    /**
+     * Guarda un tema en el repositorio.
+     * @param topic El tema a guardar.
+     */
     private void saveTopic(Topic topic) {
         topicRepository.save(topic);
     }
 
+    /**
+     * Encuentra un tema por su ID.
+     * @param id El ID del tema.
+     * @return El tema encontrado.
+     */
     private Topic findTopicById(Long id) {
         return topicRepository.findById(id);
     }
 
+    /**
+     * Actualiza un tema existente con nuevos datos.
+     * @param existingTopic El tema existente.
+     * @param newTopicData Los nuevos datos del tema.
+     */
     private void updateTopic(Topic existingTopic, Topic newTopicData) {
-        // Update existing topic fields with new values
         existingTopic.setTitle(newTopicData.getTitle());
         existingTopic.setContent(newTopicData.getContent());
     }
 
+    /**
+     * Encuentra un comentario por su ID.
+     * @param id El ID del comentario.
+     * @return El comentario encontrado.
+     */
     private Comment findCommentById(Long id) {
         return topicRepository.findCommentById(id);
     }
 
+    /**
+     * Actualiza un comentario existente con nuevos datos.
+     * @param existingComment El comentario existente.
+     * @param newCommentData Los nuevos datos del comentario.
+     */
     private void updateComment(Comment existingComment, Comment newCommentData) {
-        // Update existing comment fields with new values
         existingComment.setContent(newCommentData.getContent());
     }
 
+    /**
+     * Guarda un comentario en el repositorio.
+     * @param comment El comentario a guardar.
+     */
     private void saveComment(Comment comment) {
         topicRepository.save(comment);
     }
 
+    /**
+     * Encuentra un usuario por su ID.
+     * @param userId El ID del usuario.
+     * @return El usuario encontrado.
+     */
     private User findUserById(Long userId) {
         return userRepository.findById(userId);
     }
 
+    /**
+     * Guarda un usuario en el repositorio.
+     * @param user El usuario a guardar.
+     */
     private void saveUser(User user) {
         userRepository.save(user);
     }
