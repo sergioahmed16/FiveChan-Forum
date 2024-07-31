@@ -1,28 +1,78 @@
 # 🍀 FiveChan Forum 🍀
 
-## Overview
-The FiveChan Forum Application is a modern, Spring Boot-based forum system designed to facilitate discussions through topics and comments. It allows users to create, edit, and delete topics and comments. Additionally, it includes features for censoring topics, warning users, suspending, and banning users based on the forum's moderation policies.
+## Descripción
 
-## Features
-- **Topic Management**: Users can create, edit, and delete topics.
-- **Comment System**: Users can comment on topics, edit their comments, and delete them.
-- **Moderation Tools**: Moderators can censor topics, warn users, suspend or ban users from the forum.
+Este proyecto es una implementación de un foro llamado Fivechan. La clase `ForumService` se encarga de la lógica de negocio para la gestión de temas, comentarios y usuarios en el foro.
+Para aplicar las convenciones de codificación del lenguaje de programación (Java) y mejorar la legibilidad del código en la clase ForumService, seguiremos las mejores prácticas de Java. Estas incluyen:
 
-## Technologies
-- **Java**: The primary programming language used.
-- **Spring Boot**: Framework for creating stand-alone, production-grade Spring-based Applications.
-- **Maven**: Dependency management and build tool.
-- **PostgreSQL**: Database for storing all forum data.
+Nombres Descriptivos: Usar nombres claros y significativos para métodos y variables.
+Comentarios: Añadir comentarios donde sea necesario para explicar la lógica del código.
+Separación de Responsabilidades: Asegurarnos de que cada método haga una sola cosa.
+Convenciones de Estilo: Seguir las convenciones de estilo de Java, como el uso de camelCase para los nombres de métodos y variables, y PascalCase para los nombres de clases.
 
-## Getting Started
+## Mejoras de Código Limpio Aplicadas
 
-### Prerequisites
-- Java 21
-- Maven
-- Docker (for running PostgreSQL in a container)
+Para mejorar la legibilidad y mantenibilidad del código en la clase `ForumService`, hemos aplicado las siguientes prácticas de código limpio:
 
-### Setup
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/natzgun/fivechan.git
-   cd fivechan
+### 1. Nombres Descriptivos y Comentarios
+
+- **Nombres Descriptivos**: Los métodos ahora tienen nombres claros y significativos que explican su propósito.
+- **Comentarios**: Se han añadido comentarios donde es necesario para explicar la lógica del código.
+
+#### Ejemplo de Código Mejorado
+
+```java
+@Override
+public void editTopic(Long id, Topic topic) {
+    Topic existingTopic = findTopicById(id);
+    updateTopic(existingTopic, topic);
+    saveTopic(existingTopic);
+}
+
+/**
+ * Encuentra un tema por su ID.
+ * @param id El ID del tema.
+ * @return El tema encontrado.
+ */
+private Topic findTopicById(Long id) {
+    return topicRepository.findById(id);
+}
+```
+### 2. Refactorización de la Estructura del Código
+
+-Extraemos la lógica en métodos más pequeños para que cada método haga una sola cosa, asegurándonos de que cada método tenga una responsabilidad única.
+#### Ejemplo de Código Mejorado
+
+```java
+@Override
+public void commentOnTopic(Long topicId, Comment comment) {
+    Topic topic = findTopicById(topicId);
+    topic.addComment(comment);
+    saveTopic(topic);
+}
+
+/**
+ * Encuentra un comentario por su ID.
+ * @param id El ID del comentario.
+ * @return El comentario encontrado.
+ */
+private Comment findCommentById(Long id) {
+    return topicRepository.findCommentById(id);
+}
+
+/**
+ * Actualiza un comentario existente con nuevos datos.
+ * @param existingComment El comentario existente.
+ * @param newCommentData Los nuevos datos del comentario.
+ */
+private void updateComment(Comment existingComment, Comment newCommentData) {
+    existingComment.setContent(newCommentData.getContent());
+}
+
+/**
+ * Guarda un comentario en el repositorio.
+ * @param comment El comentario a guardar.
+ */
+private void saveComment(Comment comment) {
+    topicRepository.save(comment);
+}
